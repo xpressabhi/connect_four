@@ -1,0 +1,6 @@
+/* Add your css styles here */
+.cell {
+  height: 100px;
+  width: 100px;
+  display: flex;
+}
