@@ -20,9 +20,12 @@ cells.forEach((cell, index) =>
 
 function validMove(index) {
   //console.log(index, index +COLS, cells[index+COLS].innerText);
+  if (cells[index].innerText) {
+    return false;
+  }
   if (index > COLS * (ROWS - 1) - 1 && index < COLS * ROWS) {
     return true;
-  } else if (index < 35 && cells[index + COLS].innerText) {
+  } else if (index < COLS * (ROWS - 1) && cells[index + COLS].innerText) {
     return true;
   }
   return false;
