@@ -1,9 +1,23 @@
 // Add your javascript here
-
-const cells = document.querySelectorAll(".cell");
-//console.log(cells);
 const ROWS = 6;
 const COLS = 7;
+
+const cell = `<div class="col">
+                <div class=" rounded-circle border m-1 cell text-center h2 d-flex justify-content-center align-items-center">
+                </div>
+            </div>`;
+let row = '<div class="row">';
+for (let i = 0; i < COLS; i++) {
+  row += cell;
+}
+row = row + "</div>";
+let game = "";
+for (let i = 0; i < ROWS; i++) {
+  game += row;
+}
+document.getElementById("game").innerHTML = game;
+const cells = document.querySelectorAll(".cell");
+//console.log(cells);
 
 let turn = "A";
 
@@ -12,6 +26,11 @@ cells.forEach((cell, index) =>
     console.log(event.target.innerText, index);
     if (validMove(index)) {
       event.target.innerText = turn;
+      //add class to cell
+      let class1 = turn === "A" ? "bg-danger" : "bg-warning";
+      event.target.classList.add(class1);
+      //const get = getEventListener(event.target);
+      //console.log();
       checkWinning(turn, index);
       turn = turn === "A" ? "B" : "A";
     }

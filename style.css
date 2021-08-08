@@ -4,3 +4,7 @@
   width: 100px;
   display: flex;
 }
+.game {
+  border: 10px dotted #ccc;
+  padding: 10px;
+}
