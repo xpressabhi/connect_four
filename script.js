@@ -1,6 +1,6 @@
 // Add your javascript here
-const ROWS = 6;
-const COLS = 7;
+const ROWS = 8;
+const COLS = 9;
 
 const cell = `<div class="col">
                 <div class=" rounded-circle border m-1 cell text-center h2 d-flex justify-content-center align-items-center">
@@ -16,15 +16,17 @@ for (let i = 0; i < ROWS; i++) {
   game += row;
 }
 document.getElementById("game").innerHTML = game;
+
 const cells = document.querySelectorAll(".cell");
 //console.log(cells);
 
 let turn = "A";
+let gameOn = true;
 
 cells.forEach((cell, index) =>
   cell.addEventListener("click", function (event) {
     console.log(event.target.innerText, index);
-    if (validMove(index)) {
+    if (gameOn && validMove(index)) {
       event.target.innerText = turn;
       //add class to cell
       let class1 = turn === "A" ? "bg-danger" : "bg-warning";
@@ -51,16 +53,17 @@ function validMove(index) {
 }
 
 function checkWinning(turn, index) {
-  // check horizontal win
-  horizontalWin(turn, index);
-  //console.log(row, row_start, row_end);
-  // check vertical win
-  verticalWin(turn, index);
-  // check diagonal win start at upper left
-  upperLeftDiagonalWin(turn, index);
-  // check diagonal win start at upper right
-  upperRightDiagonalWin(turn, index);
-  //alert(turn + ' wins!');
+  if (
+    horizontalWin(turn, index) ||
+    verticalWin(turn, index) ||
+    upperLeftDiagonalWin(turn, index) ||
+    upperRightDiagonalWin(turn, index)
+  ) {
+    gameOn = false;
+    console.log(turn + " wins!");
+    const h1 = document.getElementById("winner");
+    h1.innerText = turn + " wins!";
+  }
 }
 
 function upperRightDiagonalWin(turn, index) {
@@ -102,12 +105,7 @@ function upperRightDiagonalWin(turn, index) {
       local_index = local_index + COLS - 1;
     }
   }
-  console.log(connected);
-  if (connected > 3) {
-    console.log(turn + " wins!");
-    const h1 = document.getElementById("winner");
-    h1.innerText = turn + " wins!";
-  }
+  return connected > 3;
 }
 function upperLeftDiagonalWin(turn, index) {
   console.log("upperLeftDiagonalWin");
@@ -149,12 +147,7 @@ function upperLeftDiagonalWin(turn, index) {
       local_index = local_index + COLS + 1;
     }
   }
-  console.log(connected);
-  if (connected > 3) {
-    console.log(turn + " wins!");
-    const h1 = document.getElementById("winner");
-    h1.innerText = turn + " wins!";
-  }
+  return connected > 3;
 }
 
 function verticalWin(turn, index) {
@@ -181,12 +174,7 @@ function verticalWin(turn, index) {
       local_index += COLS;
     }
   }
-  console.log(connected);
-  if (connected > 3) {
-    console.log(turn + " wins!");
-    const h1 = document.getElementById("winner");
-    h1.innerText = turn + " wins!";
-  }
+  return connected > 3;
 }
 function horizontalWin(turn, index) {
   console.log("horizontalWin");
@@ -212,10 +200,5 @@ function horizontalWin(turn, index) {
       right++;
     }
   }
-  console.log(connected);
-  if (connected > 3) {
-    console.log(turn + " wins!");
-    const h1 = document.getElementById("winner");
-    h1.innerText = turn + " wins!";
-  }
+  return connected > 3;
 }
